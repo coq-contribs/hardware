@@ -9,6 +9,6 @@ Three approaches are tackled :
 description satisfies the specification,
 - the synthesis of a circuit from its specification using the Coq extractor,
 - the same approach as above but using the Program tactic.
-Keywords: hardware, comparator circuit
+Keywords: hardware verification, comparator circuit
 Category: Computer Science/Architecture
 Category: Miscellaneous/Extracted Programs/Hardware
