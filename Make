@@ -32,8 +32,8 @@
 ./Factorization/Comparator/Comp_Verif.v
 ./Factorization/Comparator/Comp_Prog.v
 -custom "$(COQBIN)coqtop $(COQFLAGS) -silent -batch -load-vernac-source Factorization/Comparator/extract.v" Factorization/Comparator/Comp_Synth.vo Factorization/Comparator/comp.ml
--custom "ocamlopt -I Factorization/Comparator -o Factorization/Comparator/comp Factorization/Comparator/comp.ml Factorization/Comparator/comp.mli Factorization/Comparator/main.ml" "Factorization/Comparator/comp.ml Factorization/Comparator/comp.cmi" Factorization/Comparator/comp
--custom "ocamlc Factorization/Comparator/comp.mli" Factorization/Comparator/comp.mli Factorization/Comparator/comp.cmi
+-custom "$(CAMLBIN)ocamlopt -I Factorization/Comparator -o Factorization/Comparator/comp Factorization/Comparator/comp.ml Factorization/Comparator/comp.mli Factorization/Comparator/main.ml" "Factorization/Comparator/comp.ml Factorization/Comparator/comp.cmi" Factorization/Comparator/comp
+-custom "$(CAMLBIN)ocamlc Factorization/Comparator/comp.mli" Factorization/Comparator/comp.mli Factorization/Comparator/comp.cmi
 -custom
         "@echo '******* test: comparing two numbers *******'
 	./Factorization/Comparator/comp 12365876 646848674
