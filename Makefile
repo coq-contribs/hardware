@@ -17,13 +17,37 @@
 # coq_makefile -f Make -o Makefile 
 #
 
-#########################
-#                       #
-# Libraries definition. #
-#                       #
-#########################
+# 
+# This Makefile may take 3 arguments passed as environment variables:
+#   - COQBIN to specify the directory where Coq binaries resides;
+#   - CAMLBIN and CAMLP4BIN to give the path for the OCaml and Camlp4/5 binaries.
+COQLIB:=$(shell $(COQBIN)coqtop -where | sed -e 's/\\/\\\\/g')
+CAMLP4:="$(shell $(COQBIN)coqtop -config | awk -F = '/CAMLP4=/{print $$2}')"
+ifndef CAMLP4BIN
+  CAMLP4BIN:=$(CAMLBIN)
+endif
+
+CAMLP4LIB:=$(shell $(CAMLP4BIN)$(CAMLP4) -where)
+
+##########################
+#                        #
+# Libraries definitions. #
+#                        #
+##########################
 
 OCAMLLIBS:=
+COQSRCLIBS:=-I $(COQLIB)/kernel -I $(COQLIB)/lib \
+  -I $(COQLIB)/library -I $(COQLIB)/parsing \
+  -I $(COQLIB)/pretyping -I $(COQLIB)/interp \
+  -I $(COQLIB)/proofs -I $(COQLIB)/tactics \
+  -I $(COQLIB)/toplevel -I $(COQLIB)/contrib/cc -I $(COQLIB)/contrib/dp \
+  -I $(COQLIB)/contrib/extraction -I $(COQLIB)/contrib/field \
+  -I $(COQLIB)/contrib/firstorder -I $(COQLIB)/contrib/fourier \
+  -I $(COQLIB)/contrib/funind -I $(COQLIB)/contrib/interface \
+  -I $(COQLIB)/contrib/micromega -I $(COQLIB)/contrib/omega \
+  -I $(COQLIB)/contrib/ring -I $(COQLIB)/contrib/romega \
+  -I $(COQLIB)/contrib/rtauto -I $(COQLIB)/contrib/setoid_ring \
+  -I $(COQLIB)/contrib/subtac -I $(COQLIB)/contrib/xml
 COQLIBS:= -R . Hardware
 COQDOCLIBS:=-R . Hardware
 
@@ -33,33 +57,25 @@ COQDOCLIBS:=-R . Hardware
 #                        #
 ##########################
 
-CAMLP4LIB:=$(shell $(CAMLBIN)camlp5 -where 2> /dev/null || $(CAMLBIN)camlp4 -where)
-CAMLP4:=$(notdir $(CAMLP4LIB))
-COQSRC:=-I $(COQTOP)/kernel -I $(COQTOP)/lib \
-  -I $(COQTOP)/library -I $(COQTOP)/parsing \
-  -I $(COQTOP)/pretyping -I $(COQTOP)/interp \
-  -I $(COQTOP)/proofs -I $(COQTOP)/syntax -I $(COQTOP)/tactics \
-  -I $(COQTOP)/toplevel -I $(COQTOP)/contrib/correctness \
-  -I $(COQTOP)/contrib/extraction -I $(COQTOP)/contrib/field \
-  -I $(COQTOP)/contrib/fourier -I $(COQTOP)/contrib/graphs \
-  -I $(COQTOP)/contrib/interface -I $(COQTOP)/contrib/jprover \
-  -I $(COQTOP)/contrib/omega -I $(COQTOP)/contrib/romega \
-  -I $(COQTOP)/contrib/ring -I $(COQTOP)/contrib/xml \
-  -I $(CAMLP4LIB)
-ZFLAGS:=$(OCAMLLIBS) $(COQSRC)
+ZFLAGS=$(OCAMLLIBS) $(COQSRCLIBS) -I $(CAMLP4LIB)
 OPT:=
 COQFLAGS:=-q $(OPT) $(COQLIBS) $(OTHERFLAGS) $(COQ_XML)
+ifdef CAMLBIN
+  COQMKTOPFLAGS:=-camlbin $(CAMLBIN) -camlp4bin $(CAMLP4BIN)
+endif
 COQC:=$(COQBIN)coqc
 COQDEP:=$(COQBIN)coqdep -c
 GALLINA:=$(COQBIN)gallina
 COQDOC:=$(COQBIN)coqdoc
-CAMLC:=$(CAMLBIN)ocamlc -rectypes -c
-CAMLOPTC:=$(CAMLBIN)ocamlopt -c
-CAMLLINK:=$(CAMLBIN)ocamlc
-CAMLOPTLINK:=$(CAMLBIN)ocamlopt
+COQMKTOP:=$(COQBIN)coqmktop
+CAMLC:=$(CAMLBIN)ocamlc.opt -c -rectypes
+CAMLOPTC:=$(CAMLBIN)ocamlopt.opt -c -rectypes
+CAMLLINK:=$(CAMLBIN)ocamlc.opt -rectypes
+CAMLOPTLINK:=$(CAMLBIN)ocamlopt.opt -rectypes
 GRAMMARS:=grammar.cma
 CAMLP4EXTEND:=pa_extend.cmo pa_macro.cmo q_MLast.cmo
-PP:=-pp "$(CAMLBIN)$(CAMLP4)o -I . -I $(COQTOP)/parsing $(CAMLP4EXTEND) $(GRAMMARS) -impl"
+CAMLP4OPTIONS:=
+PP:=-pp "$(CAMLP4BIN)$(CAMLP4)o -I . $(COQSRCLIBS) $(CAMLP4EXTEND) $(GRAMMARS) $(CAMLP4OPTIONS) -impl"
 
 ###################################
 #                                 #
@@ -67,46 +83,52 @@ PP:=-pp "$(CAMLBIN)$(CAMLP4)o -I . -I $(COQTOP)/parsing $(CAMLP4EXTEND) $(GRAMMA
 #                                 #
 ###################################
 
-VFILES:=./Libraries/Lib_Boolean/Lib_Bool.v\
-  ./Libraries/Lib_Boolean/Lib_Zerob.v\
-  ./Libraries/Lib_Prop.v\
-  ./Libraries/Lib_Set_Products.v\
-  ./Libraries/Lib_Lists/Dependent_lists.v\
-  ./Libraries/Lib_Lists/Lists_of_lists.v\
-  ./Libraries/Lib_Arithmetic/Lib_Div_Even_Odd.v\
-  ./Libraries/Lib_Arithmetic/Lib_Pred.v\
-  ./Libraries/Lib_Arithmetic/Lib_Plus.v\
-  ./Libraries/Lib_Arithmetic/Lib_Square.v\
-  ./Libraries/Lib_Arithmetic/Lib_Arith.v\
-  ./Libraries/Lib_Arithmetic/Lib_Fact.v\
-  ./Libraries/Lib_Arithmetic/Lib_Eq_Le_Lt.v\
-  ./Libraries/Lib_Arithmetic/Lib_Exp.v\
-  ./Libraries/Lib_Arithmetic/Lib_Mult.v\
-  ./Libraries/Lib_Arithmetic/Lib_Dec.v\
-  ./Libraries/Lib_Arithmetic/Lib_Minus.v\
-  ./Factorization/Factorization_Prog.v\
-  ./Factorization/Lib_Numerals/Compare_Num.v\
-  ./Factorization/Lib_Numerals/Compare_Nat.v\
-  ./Factorization/Lib_Numerals/Numerals.v\
-  ./Factorization/Lib_Numerals/Lists_of_Numerals.v\
-  ./Factorization/Factorization_Synth.v\
-  ./Factorization/Factorization_Verif.v\
-  ./Factorization/Factorization.v\
-  ./Factorization/Linear_Structures.v\
-  ./Factorization/Comparator/Comparator_Relation.v\
-  ./Factorization/Comparator/extract.v\
-  ./Factorization/Comparator/Comp_Simpl.v\
-  ./Factorization/Comparator/Comp_Synth.v\
-  ./Factorization/Comparator/Comp_Verif.v\
-  ./Factorization/Comparator/Comp_Prog.v
+VFILES:=Libraries/Lib_Boolean/Lib_Bool.v\
+  Libraries/Lib_Boolean/Lib_Zerob.v\
+  Libraries/Lib_Prop.v\
+  Libraries/Lib_Set_Products.v\
+  Libraries/Lib_Lists/Dependent_lists.v\
+  Libraries/Lib_Lists/Lists_of_lists.v\
+  Libraries/Lib_Arithmetic/Lib_Div_Even_Odd.v\
+  Libraries/Lib_Arithmetic/Lib_Pred.v\
+  Libraries/Lib_Arithmetic/Lib_Plus.v\
+  Libraries/Lib_Arithmetic/Lib_Square.v\
+  Libraries/Lib_Arithmetic/Lib_Arith.v\
+  Libraries/Lib_Arithmetic/Lib_Fact.v\
+  Libraries/Lib_Arithmetic/Lib_Eq_Le_Lt.v\
+  Libraries/Lib_Arithmetic/Lib_Exp.v\
+  Libraries/Lib_Arithmetic/Lib_Mult.v\
+  Libraries/Lib_Arithmetic/Lib_Dec.v\
+  Libraries/Lib_Arithmetic/Lib_Minus.v\
+  Factorization/Factorization_Prog.v\
+  Factorization/Lib_Numerals/Compare_Num.v\
+  Factorization/Lib_Numerals/Compare_Nat.v\
+  Factorization/Lib_Numerals/Numerals.v\
+  Factorization/Lib_Numerals/Lists_of_Numerals.v\
+  Factorization/Factorization_Synth.v\
+  Factorization/Factorization_Verif.v\
+  Factorization/Factorization.v\
+  Factorization/Linear_Structures.v\
+  Factorization/Comparator/Comparator_Relation.v\
+  Factorization/Comparator/extract.v\
+  Factorization/Comparator/Comp_Simpl.v\
+  Factorization/Comparator/Comp_Synth.v\
+  Factorization/Comparator/Comp_Verif.v\
+  Factorization/Comparator/Comp_Prog.v
 VOFILES:=$(VFILES:.v=.vo)
 GLOBFILES:=$(VFILES:.v=.glob)
 VIFILES:=$(VFILES:.v=.vi)
 GFILES:=$(VFILES:.v=.g)
 HTMLFILES:=$(VFILES:.v=.html)
 GHTMLFILES:=$(VFILES:.v=.g.html)
+MLFILES:=
+CMOFILES:=$(MLFILES:.ml=.cmo)
+CMIFILES:=$(MLFILES:.ml=.cmi)
+CMXFILES:=$(MLFILES:.ml=.cmx)
+CMXSFILES:=$(MLFILES:.ml=.cmxs)
+OFILES:=$(MLFILES:.ml=.o)
 
-all: $(VOFILES) Factorization/Comparator/comp.ml\
+all: $(VOFILES) $(CMOFILES) $(CMXSFILES) Factorization/Comparator/comp.ml\
   Factorization/Comparator/comp\
   Factorization/Comparator/comp.cmi\
   test
@@ -128,6 +150,12 @@ all.ps: $(VFILES)
 all-gal.ps: $(VFILES)
 	$(COQDOC) -toc -ps -g $(COQDOCLIBS) -o $@ `$(COQDEP) -sort -suffix .v $(VFILES)`
 
+all.pdf: $(VFILES)
+	$(COQDOC) -toc -pdf $(COQDOCLIBS) -o $@ `$(COQDEP) -sort -suffix .v $(VFILES)`
+
+all-gal.pdf: $(VFILES)
+	$(COQDOC) -toc -pdf -g $(COQDOCLIBS) -o $@ `$(COQDEP) -sort -suffix .v $(VFILES)`
+
 
 
 ###################
@@ -140,10 +168,10 @@ Factorization/Comparator/comp.ml: Factorization/Comparator/Comp_Synth.vo
 	$(COQBIN)coqtop $(COQFLAGS) -silent -batch -load-vernac-source Factorization/Comparator/extract.v
 
 Factorization/Comparator/comp: Factorization/Comparator/comp.ml Factorization/Comparator/comp.cmi
-	ocamlopt -I Factorization/Comparator -o Factorization/Comparator/comp Factorization/Comparator/comp.ml Factorization/Comparator/comp.mli Factorization/Comparator/main.ml
+	$(CAMLBIN)ocamlopt -I Factorization/Comparator -o Factorization/Comparator/comp Factorization/Comparator/comp.ml Factorization/Comparator/comp.mli Factorization/Comparator/main.ml
 
 Factorization/Comparator/comp.cmi: Factorization/Comparator/comp.mli
-	ocamlc Factorization/Comparator/comp.mli
+	$(CAMLBIN)ocamlc Factorization/Comparator/comp.mli
 
 test: Factorization/Comparator/comp
 	@echo '******* test: comparing two numbers *******'
@@ -157,6 +185,30 @@ test: Factorization/Comparator/comp
 ####################
 
 .PHONY: all opt byte archclean clean install depend html
+
+%.cmi: %.mli
+	$(CAMLC) $(ZDEBUG) $(ZFLAGS) $<
+
+%.cmo: %.ml
+	$(CAMLC) $(ZDEBUG) $(ZFLAGS) $(PP) $<
+
+%.cmx: %.ml
+	$(CAMLOPTC) $(ZDEBUG) $(ZFLAGS) $(PP) $<
+
+%.cmxs: %.ml
+	$(CAMLOPTLINK) $(ZDEBUG) $(ZFLAGS) -shared -o $@ $(PP) $<
+
+%.cmo: %.ml4
+	$(CAMLC) $(ZDEBUG) $(ZFLAGS) $(PP) -impl $<
+
+%.cmx: %.ml4
+	$(CAMLOPTC) $(ZDEBUG) $(ZFLAGS) $(PP) -impl $<
+
+%.cmxs: %.ml4
+	$(CAMLOPTLINK) $(ZDEBUG) $(ZFLAGS) -shared -o $@ $(PP) -impl $<
+
+%.ml.d: %.ml
+	$(CAMLBIN)ocamldep -slash $(COQSRCLIBS) $(OCAMLLIBS) $(PP) "$<" > "$@"
 
 %.vo %.glob: %.v
 	$(COQC) -dump-glob $*.glob $(COQDEBUG) $(COQFLAGS) $*
@@ -189,17 +241,25 @@ opt:
 	$(MAKE) all "OPT:=-opt"
 
 install:
-	mkdir -p `$(COQC) -where`/user-contrib
-	cp -f $(VOFILES) `$(COQC) -where`/user-contrib
-
-Makefile: Make
-	mv -f Makefile Makefile.bak
-	$(COQBIN)coq_makefile -f Make -o Makefile
-
+	mkdir -p $(COQLIB)/user-contrib
+	(for i in $(VOFILES); do \
+	 install -D $$i $(COQLIB)/user-contrib/Hardware/$$i; \
+	 done)
+	(for i in $(CMOFILES); do \
+	 install -D $$i $(COQLIB)/user-contrib/Hardware/$$i; \
+	 done)
+	(for i in $(CMIFILES); do \
+	 install -D $$i $(COQLIB)/user-contrib/Hardware/$$i; \
+	 done)
+	(for i in $(CMXSFILES); do \
+	 install -D $$i $(COQLIB)/user-contrib/Hardware/$$i; \
+	 done)
 
 clean:
-	rm -f *.cmo *.cmi *.cmx *.o $(VOFILES) $(VIFILES) $(GFILES) *~
-	rm -f all.ps all-gal.ps all.glob $(VFILES:.v=.glob) $(HTMLFILES) $(GHTMLFILES) $(VFILES:.v=.tex) $(VFILES:.v=.g.tex) $(VFILES:.v=.v.d)
+	rm -f $(VOFILES) $(VIFILES) $(GFILES) *~
+	rm -f all.ps all-gal.ps all.pdf all-gal.pdf all.glob $(VFILES:.v=.glob) $(HTMLFILES) $(GHTMLFILES) $(VFILES:.v=.tex) $(VFILES:.v=.g.tex) $(VFILES:.v=.v.d)
+	rm -f $(CMOFILES) $(MLFILES:.ml=.cmi) $(MLFILES:.ml=.ml.d) $(MLFILES:.ml=.cmx) $(MLFILES:.ml=.o)
+	rm -f $(CMXSFILES) $(CMXSFILES:.cmxs=.o)
 	- rm -rf html
 	- rm -f Factorization/Comparator/comp.ml
 	- rm -f Factorization/Comparator/comp
@@ -210,8 +270,21 @@ archclean:
 	rm -f *.cmx *.o
 
 
+printenv: 
+	@echo CAMLC =	$(CAMLC)
+	@echo CAMLOPTC =	$(CAMLOPTC)
+	@echo CAMLP4LIB =	$(CAMLP4LIB)
+
+Makefile: Make
+	mv -f Makefile Makefile.bak
+	$(COQBIN)coq_makefile -f Make -o Makefile
+
+
 -include $(VFILES:.v=.v.d)
 .SECONDARY: $(VFILES:.v=.v.d)
+
+-include $(MLFILES:.ml=.ml.d)
+.SECONDARY: $(MLFILES:.ml=.ml.d)
 
 # WARNING
 #
