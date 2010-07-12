@@ -4,12 +4,14 @@
 Require Import Factorization_Synth.
 Require Import Comp_Synth.
 
-(* we provide a dummy realization for paramater BASE which 
-   is in fact not used in extracted code *)
+(* The parameter BASE is in fact not necessary in extracted code,
+   the following commands help making it disappear from the code. *)
+  
+Extraction Inline Tl val_inf.
+Extraction Implicit Comparator_Relation.FR [n].
+ 
+(* some more optimizations *)
 
-Extract Inlined Constant BASE => "".
-
-(* some optimizations *)
 Extraction Inline factorization_for_synthesis.
 
 Extraction "Factorization/Comparator/comp.ml" Comparator.
