@@ -61,7 +61,7 @@ Require Export Factorization.
   intros a' H; exists a'.
   unfold b in |- *; unfold R in |- *; unfold Val_bound in |- *.
   apply fact_Rel; try trivial with v62.
-  Qed.
+  Defined.
 
 End Factorization_for_Synthesis.
 

@@ -90,7 +90,7 @@ Section Dependent_lists.
   unfold eq_list in |- *.
   intros H; exists a; exists l0; auto with v62.
 
-  Qed.
+  Defined.
 
 
   Lemma non_empty :
@@ -108,7 +108,7 @@ Section Dependent_lists.
   apply eq_dep_eq with (U := nat) (P := list) (p := S n).
   unfold eq_list in H; auto with v62.
   apply (non_empty_dep n (S n)); auto with v62.
-  Qed.
+  Defined.
 
 
   Lemma split_list :

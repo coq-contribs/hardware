@@ -51,7 +51,6 @@ Section Comparator_Rel.
 Lemma is_proper : proper _ BASE R.
 unfold proper in |- *.
 intros a; case a; unfold R in |- *; simpl in |- *; auto with v62.
-apply sym_equal; auto with v62.
 Qed.
 
 

@@ -40,7 +40,7 @@ elim (H n1); intros Hyp.
 apply First; auto with v62.
 apply Second; auto with v62.
 apply Third; auto with v62.
-Qed.
+Defined.
 
 
 Inductive order : Set :=

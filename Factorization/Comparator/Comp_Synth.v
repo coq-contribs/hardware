@@ -38,7 +38,7 @@ unfold R in |- *; unfold b in |- *; unfold Val_bound in |- *.
 apply factorization_for_synthesis.
 exact is_factorizable.
 exact (is_proper BASE).
-Qed.
+Defined.
 
 
 (*************************************************************************************)

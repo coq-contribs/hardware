@@ -81,7 +81,6 @@ Section comparator.
   clear H o' o Y X n.
   intros o; case o; simpl in |- *; auto with v62.
   auto with v62.
-  apply sym_equal; auto with v62.
 
   clear H o' o Y X n.
   intros n o o1 o' x y X Y H_cell H_n H_rec.
