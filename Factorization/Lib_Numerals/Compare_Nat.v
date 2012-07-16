@@ -24,6 +24,8 @@
 
 Require Export Arith.
 
+Global Set Asymmetric Patterns.
+
 Inductive Or3 (A B C : Prop) : Set :=
   | First : A -> Or3 A B C
   | Second : B -> Or3 A B C

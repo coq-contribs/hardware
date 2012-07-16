@@ -25,6 +25,7 @@
 Require Export Eqdep.
 Require Export Arith.
 
+Global Set Asymmetric Patterns.
 Section Dependent_lists.
 
   Variable A : Set.
