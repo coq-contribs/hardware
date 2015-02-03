@@ -39,4 +39,3 @@
 	./Factorization/Comparator/comp 12365876 646848674
 	@echo '************** End of test ****************'"
 Factorization/Comparator/comp test
-
