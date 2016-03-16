@@ -1,4 +1,5 @@
 -R . Hardware
+
 ./Libraries/Lib_Boolean/Lib_Bool.v
 ./Libraries/Lib_Boolean/Lib_Zerob.v
 ./Libraries/Lib_Prop.v
@@ -31,6 +32,7 @@
 ./Factorization/Comparator/Comp_Synth.v
 ./Factorization/Comparator/Comp_Verif.v
 ./Factorization/Comparator/Comp_Prog.v
+
 -extra Factorization/Comparator/comp.ml Factorization/Comparator/Comp_Synth.vo
        "$(COQBIN)coqtop $(COQFLAGS) -silent -batch -load-vernac-source Factorization/Comparator/extract.v"
 -extra Factorization/Comparator/comp.mli Factorization/Comparator/comp.ml ""
