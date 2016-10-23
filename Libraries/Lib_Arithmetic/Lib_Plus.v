@@ -34,24 +34,24 @@ Hint Resolve plus_opp.
 
 
 Lemma S_plus : forall n : nat, S n = n + 1.
-intro; elim plus_comm; auto with v62.
+intro; elim plus_comm; auto with arith.
 Qed.
 Hint Resolve S_plus.
 
 
 
 Lemma lt_plus : forall n m : nat, 0 < n -> m < n + m.
-simple induction n; simple induction m; auto with v62.
+simple induction n; simple induction m; auto with arith.
 intros.
 simpl in |- *; apply lt_n_S.
-auto with v62.
+auto with arith.
 Qed.
 Hint Resolve lt_plus.
 
 
 
 Lemma le_minus_plus : forall n m : nat, n - m <= n + m.
-simple induction n; auto with v62.
+simple induction n; auto with arith.
 Qed.
 Hint Resolve le_minus_plus.
 
@@ -61,10 +61,10 @@ Lemma le_le_assoc_plus_minus :
  forall n m p : nat, n <= m -> n <= p -> m - n + p = m + (p - n).
 intros.
 elim H.
-elim minus_n_n; simpl in |- *; elim le_plus_minus; auto with v62.
+elim minus_n_n; simpl in |- *; elim le_plus_minus; auto with arith.
 intros.
 elim minus_Sn_m; simpl in |- *.
-apply eq_S; auto with v62.
+apply eq_S; auto with arith.
 assumption.
 Qed.
 Hint Resolve le_le_assoc_plus_minus.
@@ -74,15 +74,15 @@ Hint Resolve le_le_assoc_plus_minus.
 Lemma le_lt_plus : forall n m p q : nat, n <= p -> m < q -> n + m < p + q.
 intros.
 apply lt_le_trans with (n + q).
-apply plus_lt_compat_l; try trivial with v62.
-apply plus_le_compat_r; try trivial with v62.
+apply plus_lt_compat_l; try trivial with arith.
+apply plus_le_compat_r; try trivial with arith.
 Qed.
 
 
 
 Lemma plus_eq_zero : forall a b : nat, a + b = 0 -> a = 0 /\ b = 0.
 intros a b H.
-split; apply sym_equal; apply le_n_O_eq; elim H; auto with v62.
+split; apply sym_equal; apply le_n_O_eq; elim H; auto with arith.
 Qed.
 Hint Resolve plus_eq_zero.
 
@@ -92,9 +92,9 @@ Lemma le_transp_l : forall n m p : nat, n + m <= p -> m <= p - n.
 simple induction n; intros.
 simpl in H; elim minus_n_O; assumption.
 elim H0.
-elim plus_comm; rewrite plus_opp; auto with v62.
+elim plus_comm; rewrite plus_opp; auto with arith.
 intros.
-simpl in |- *; apply H; auto with v62.
+simpl in |- *; apply H; auto with arith.
 Qed.
 Hint Resolve le_transp_l.
 

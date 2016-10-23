@@ -68,8 +68,8 @@ Section factorization.
    proper R ->
    forall (X Y : Num 0) (a : A), R 1 a (Val_bound 0 X) (Val_bound 0 Y) a.
   intros P X Y a.
-  replace X with (nil (digit BASE)); auto with v62.
-  replace Y with (nil (digit BASE)); auto with v62.
+  replace X with (nil (digit BASE)); auto with arith.
+  replace Y with (nil (digit BASE)); auto with arith.
   Qed.
 
    Lemma fact_Rel :
@@ -99,18 +99,18 @@ Section factorization.
       (FR b a (Hd Digit n X) (Hd Digit n Y)).
   unfold Diveucl in |- *; split; simpl in |- *.
   rewrite HD; simpl in |- *.
-  elim (mult_comm (val_inf b d) (exp b n)); auto with v62.
+  elim (mult_comm (val_inf b d) (exp b n)); auto with arith.
   rewrite HD; simpl in |- *.
   unfold b in |- *; apply upper_bound.
   unfold Diveucl in |- *; split; simpl in |- *.
   rewrite HD'; simpl in |- *.
-  elim (mult_comm (val_inf b d') (exp b n)); auto with v62.
+  elim (mult_comm (val_inf b d') (exp b n)); auto with arith.
   rewrite HD'; simpl in |- *.
   unfold b in |- *; apply upper_bound.
   unfold R in |- *.
   rewrite HD; rewrite HD'.
-  rewrite Non_empty_Hd; rewrite Non_empty_Hd; auto with v62.
-  try trivial with v62.
+  rewrite Non_empty_Hd; rewrite Non_empty_Hd; auto with arith.
+  try trivial with arith.
   Qed.
 
  End Three_inputs.

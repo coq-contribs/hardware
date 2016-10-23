@@ -35,7 +35,7 @@ Fixpoint factorial (n : nat) : nat :=
 
 Lemma fact_pred :
  forall n : nat, 0 < n -> factorial n = n * factorial (pred n).
-simple induction n; auto with v62.
+simple induction n; auto with arith.
 Qed.
 Hint Resolve fact_pred.
 

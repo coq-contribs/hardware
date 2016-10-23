@@ -63,8 +63,8 @@ Section Dependent_lists.
 
   Lemma empty_dep : forall (n : nat) (l : list n), n = 0 -> eq_list 0 nil n l.
   unfold eq_list in |- *; intros n l.
-  dependent inversion_clear l; auto with v62.
-  intros H; absurd (S n0 = 0); auto with v62.
+  dependent inversion_clear l; auto.
+  intros H; absurd (S n0 = 0); auto.
   Qed.
 
   Hint Resolve empty_dep.
@@ -72,7 +72,7 @@ Section Dependent_lists.
   Lemma empty : forall l : list 0, nil = l.
   intros l.
   apply (eq_dep_eq nat list 0).
-  apply empty_dep; auto with v62.
+  apply empty_dep; auto.
   Qed.
 
   Hint Resolve empty.
@@ -89,7 +89,7 @@ Section Dependent_lists.
     (fun (n' : nat) (l : list n') =>
      m = n' -> {a : A &  {l' : list n | eq_list n' l (S n) (cons n a l')}}).
   unfold eq_list in |- *.
-  intros H; exists a; exists l0; auto with v62.
+  intros H; exists a; exists l0; auto.
 
   Defined.
 
@@ -107,8 +107,8 @@ Section Dependent_lists.
   intros t H.
   exists a; exists t.
   apply eq_dep_eq with (U := nat) (P := list) (p := S n).
-  unfold eq_list in H; auto with v62.
-  apply (non_empty_dep n (S n)); auto with v62.
+  unfold eq_list in H; auto.
+  apply (non_empty_dep n (S n)); auto.
   Defined.
 
 
@@ -120,7 +120,7 @@ Section Dependent_lists.
   intros h H; elim H; clear H.
   intros t e.
   rewrite e; simpl in |- *.
-  auto with v62.
+  auto.
   Qed.
 
   Definition Hd (n : nat) (l : list (S n)) :=
@@ -132,7 +132,7 @@ Section Dependent_lists.
   elim (non_empty n (cons n a l)).
   intros x H; elim H.
   clear H; intros X H.
-  injection H; auto with v62.
+  injection H; auto.
   Qed.
 
 End Dependent_lists.

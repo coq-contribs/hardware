@@ -50,18 +50,18 @@ Section Factorization_for_Verification.
    Connection n a X Y a' -> R (exp b n) a (Val_bound n X) (Val_bound n Y) a'.
     intros F P.
     simple induction 1.
-    unfold proper in P; auto with v62.
+    unfold proper in P; auto.
     clear H X Y n a a'.
     intros n a a1 a' d d' D D' H C H_rec.
     simpl in |- *.
     apply F with d d' (Val_bound n D) (Val_bound n D') a1;
-     try trivial with v62; unfold Diveucl in |- *; 
+     try trivial; unfold Diveucl in |- *; 
      split; simpl in |- *.
     elim (mult_comm (exp (base BASE) n) (val BASE d)); unfold val in |- *;
-     unfold val_inf in |- *; auto with v62.
+     unfold val_inf in |- *; auto.
     unfold b in |- *; apply upper_bound.
     elim (mult_comm (exp (base BASE) n) (val BASE d')); unfold val in |- *;
-     unfold val_inf in |- *; auto with v62.
+     unfold val_inf in |- *; auto.
     unfold b in |- *; apply upper_bound.
     Qed.
 
