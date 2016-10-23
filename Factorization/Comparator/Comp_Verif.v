@@ -43,7 +43,7 @@ unfold b in |- *.
 apply factorization_for_verification with (A := order) (BASE := BASE).
 exact is_factorizable.
 exact (is_proper BASE).
-try trivial with v62.
+try trivial.
 Qed.
  
 
@@ -52,7 +52,7 @@ Theorem correctness :
  Connection n E X Y o -> o = Compare_Nat.comparison (Value n X) (Value n Y).
 intros n X Y o.
 generalize (general_correct n X Y E o).
-unfold R in |- *; simpl in |- *; auto with v62.
+unfold R in |- *; simpl in |- *; auto.
 Qed.
 
  

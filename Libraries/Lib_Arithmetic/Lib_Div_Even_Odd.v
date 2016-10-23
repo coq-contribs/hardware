@@ -40,9 +40,9 @@ Lemma no_zero_div :
 simple induction q.
 intro.
 absurd (0 = n).
-apply lt_O_neq; auto with v62.
-rewrite (mult_n_O m); auto with v62.
-auto with v62.
+apply lt_O_neq; auto with arith.
+rewrite (mult_n_O m); auto with arith.
+auto with arith.
 Qed.
 
 
@@ -63,15 +63,15 @@ Hint Resolve lt_quotient2_n.
 Lemma less_div : forall n a b : nat, 0 < n -> n = a * b -> b <= n.
 intros.
 rewrite H0.
-elim (mult_O_le b a); auto with v62.
+elim (mult_O_le b a); auto with arith.
 intro.
 absurd (n = 0).
 unfold not in |- *; intro.
 elim (lt_irrefl n).
 pattern n at 1 in |- *.
-rewrite H2; auto with v62.
+rewrite H2; auto with arith.
 rewrite H0.
-rewrite H1; auto with v62.
+rewrite H1; auto with arith.
 Qed.
 
 
@@ -79,7 +79,7 @@ Qed.
 
 Lemma even_or_odd : forall n : nat, {even n} + {odd n}.
 simple induction n.
-left; apply (even_intro 0 0); auto with v62.
+left; apply (even_intro 0 0); auto with arith.
 intros y hrec.
 elim hrec.
 intro eveny.
@@ -87,7 +87,7 @@ right; elim eveny.
 intros q hy; apply (odd_intro (S y) q).
 elim hy.
 elim plus_n_Sm.
-auto with v62.
+auto with arith.
 intro oddy; left.
 elim oddy.
 intros q hy; apply (even_intro (S y) (S q)).
@@ -96,7 +96,7 @@ rewrite plus_n_Sm.
 elim (mult_comm (S q) 2).
 elim (mult_comm q 2).
 elim plus_comm.
-auto with v62.
+auto with arith.
 Qed.
 
 
@@ -106,12 +106,12 @@ unfold not in |- *; intros.
 elim H0; elim H.
 intros k1 evena k2 odda.
 apply (le_Sn_n 1).
-apply (less_div 1 (k1 - k2) 2); auto with v62.
+apply (less_div 1 (k1 - k2) 2); auto with arith.
 rewrite mult_comm.
 replace (2 * (k1 - k2)) with (2 * k1 - 2 * k2).
 elim evena.
 rewrite odda.
-auto with v62.
+auto with arith.
 elim mult_comm.
 replace (2 * k1) with (k1 * 2).
 2: apply mult_comm.
@@ -119,7 +119,7 @@ replace (2 * k2) with (k2 * 2).
 2: apply mult_comm.
 (* Rewrite (mult_minus_distr k1 k2 (S(S O))). *)
 elim (mult_comm 2 k1); elim (mult_comm 2 k2).
-apply sym_equal; auto with v62.
+apply sym_equal; auto with arith.
 Qed.
 
 
@@ -127,7 +127,7 @@ Qed.
 Lemma odd_even : forall a : nat, odd a -> ~ even a.
 unfold not in |- *; intros.
 apply (even_odd a H0).
-auto with v62.
+auto with arith.
 Qed.
 
 
@@ -140,7 +140,7 @@ intros.
 rewrite H2; rewrite H1.
 elim (mult_plus_distr_left q q0 2).
 apply (even_intro (2 * (q + q0)) (q + q0)).
-auto with v62.
+auto with arith.
 Qed.
 
 
@@ -151,9 +151,9 @@ elim H; intros.
 rewrite H0.
 rewrite (plus_n_Sm (2 * q) 1).
 apply (plus_even_even (2 * q) 2).
-apply (even_intro (2 * q) q); auto with v62.
+apply (even_intro (2 * q) q); auto with arith.
 apply (even_intro 2 1).
-auto with v62.
+auto with arith.
 Qed.
 
 
@@ -165,7 +165,7 @@ rewrite H0.
 elim (plus_n_Sm (2 * q) 0).
 elim (pred_Sn (2 * q + 0)).
 elim (plus_n_O (2 * q)).
-apply (even_intro (2 * q) q); auto with v62.
+apply (even_intro (2 * q) q); auto with arith.
 Qed.
 
 
@@ -177,7 +177,7 @@ rewrite H2; rewrite H1.
 rewrite (plus_assoc (2 * q) (2 * q0) 1).
 elim (mult_plus_distr_left q q0 2).
 apply (odd_intro (2 * (q + q0) + 1) (q + q0)).
-auto with v62.
+auto with arith.
 Qed.
 Hint Resolve plus_even_odd.
 
@@ -186,7 +186,7 @@ Hint Resolve plus_even_odd.
 Lemma plus_odd_even : forall a b : nat, odd a -> even b -> odd (a + b).
 intros.
 rewrite plus_comm.
-auto with v62.
+auto with arith.
 Qed.
 
 
@@ -197,7 +197,7 @@ elim H; intros.
 rewrite H0.
 apply (odd_intro (S (2 * q)) q).
 elim (plus_n_Sm (2 * q) 0).
-auto with v62.
+auto with arith.
 Qed.
 
 
@@ -211,9 +211,9 @@ rewrite (plus_assoc (2 * q + 1) 1 (2 * q0)).
 rewrite (plus_assoc_reverse (2 * q) 1 1).
 apply (plus_even_even (2 * q + (1 + 1)) (2 * q0)).
 apply (plus_even_even (2 * q) (1 + 1)).
-apply (even_intro (2 * q) q); auto with v62.
-apply (even_intro (1 + 1) 1); auto with v62.
-apply (even_intro (2 * q0) q0); auto with v62.
+apply (even_intro (2 * q) q); auto with arith.
+apply (even_intro (1 + 1) 1); auto with arith.
+apply (even_intro (2 * q0) q0); auto with arith.
 Qed.
 
 
@@ -225,7 +225,7 @@ elim H.
 intros.
 apply (even_intro (a * b) (q * b)).
 rewrite H0.
-auto with v62.
+auto with arith.
 Qed.
 
 
@@ -239,8 +239,8 @@ rewrite H2; rewrite H1.
 rewrite (mult_plus_distr_r (2 * q0) 1 (2 * q + 1)).
 apply (plus_even_odd (2 * q0 * (2 * q + 1)) (1 * (2 * q + 1))).
 apply (mult_even (2 * q0) (2 * q + 1)).
-apply (even_intro (2 * q0) q0); auto with v62.
-apply (odd_intro (1 * (2 * q + 1)) q); auto with v62.
+apply (even_intro (2 * q0) q0); auto with arith.
+apply (odd_intro (1 * (2 * q + 1)) q); auto with arith.
 Qed.
 
 
@@ -262,22 +262,22 @@ intros q evenx.
 unfold div in |- *.
 exists q.
 apply (mult_reg_l_bis n (d * q) 2).
-auto with v62.
+auto with arith.
 rewrite H1.
 rewrite evenx.
 elim (mult_assoc_reverse 2 d q).
 rewrite (mult_comm 2 d).
-auto with v62.
+auto with arith.
 elim (even_or_odd x).
-auto with v62.
+auto with arith.
 intros.
 absurd (even (d * x)).
 apply odd_even.
-apply mult_odd_odd; auto with v62.
-cut (d * x = 2 * n); auto with v62.
+apply mult_odd_odd; auto with arith.
+cut (d * x = 2 * n); auto with arith.
 intro.
 apply (even_intro (d * x) n).
-auto with v62.
+auto with arith.
 Qed.
 
 
@@ -286,12 +286,12 @@ Lemma div_odd_odd : forall n : nat, odd n -> forall d : nat, div d n -> odd d.
 intros n oddn d divdn.
 elim divdn.
 intros.
- elim (even_or_odd d); auto with v62.
+ elim (even_or_odd d); auto with arith.
 intros evend.
 absurd (even n).
-apply odd_even; auto with v62.
+apply odd_even; auto with arith.
 rewrite H.
-apply mult_even; auto with v62.
+apply mult_even; auto with arith.
 Qed.
 
 
@@ -302,7 +302,7 @@ elim divdm; intros; elim divdn; intros.
 rewrite H0; rewrite H.
 elim mult_plus_distr_left.
 unfold div in |- *.
-exists (x0 + x); auto with v62.
+exists (x0 + x); auto with arith.
 Qed.
 Hint Resolve div_plus.
 
@@ -313,7 +313,7 @@ intros n m d divdn divdm.
 elim divdm; intros; elim divdn; intros.
 rewrite H0; rewrite H. elim (mult_minus_distr_left x0 x d).
 unfold div in |- *.
-exists (x0 - x); auto with v62.
+exists (x0 - x); auto with arith.
 Qed.
 Hint Resolve div_minus.
 
@@ -331,7 +331,7 @@ Inductive Odd (n : nat) : Set :=
 
 Lemma Even_or_Odd : forall n : nat, Even n + Odd n.
 simple induction n.
-left; apply (Even_intro 0 0); auto with v62.
+left; apply (Even_intro 0 0); auto with arith.
 intros y hrec.
 elim hrec.
 intro eveny.
@@ -339,7 +339,7 @@ right; elim eveny.
 intros q hy; apply (Odd_intro (S y) q).
 elim hy.
 elim plus_n_Sm.
-auto with v62.
+auto with arith.
 intro oddy; left.
 elim oddy.
 intros q hy; apply (Even_intro (S y) (S q)).
@@ -348,7 +348,7 @@ rewrite plus_n_Sm.
 elim (mult_comm (S q) 2).
 elim (mult_comm q 2).
 elim plus_comm.
-auto with v62.
+auto with arith.
 Qed.
 
 

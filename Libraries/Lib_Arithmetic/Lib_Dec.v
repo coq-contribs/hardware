@@ -28,41 +28,35 @@ Require Export Lib_Prop.
 
 
 Lemma lt_or_eq_O_dec : forall n : nat, {0 < n} + {n = 0}.
-simple induction n; auto with v62.
+simple induction n; auto with arith.
 Qed.
 Hint Resolve lt_or_eq_O_dec.
 
 
 Lemma lt_SO_or_eq_O_or_SO_dec : forall n : nat, {1 < n} + {n = 0} + {n = 1}.
-intros n; case n; auto with v62.
-intros p; case p; auto with v62.
+intros n; case n; auto with arith.
+intros p; case p; auto with arith.
 Qed.
 Hint Resolve lt_SO_or_eq_O_or_SO_dec.
 
 
 Lemma O_or_no_dec : forall n : nat, {n = 0} + {n <> 0}.
-simple induction n; auto with v62.
+simple induction n; auto with arith.
 Qed.
 Hint Resolve O_or_no_dec.
 
 Lemma eq_or_not : forall n m : nat, {n = m} + {n <> m}.
-simple induction n; simple induction m; auto with v62.
-intros.
-elim (H n1).
-intro.
-left; auto with v62.
-intro.
-right; auto with v62.
+auto with arith.
 Qed.
 
 
 
 Lemma nat_order_dec : forall a b : nat, or3 (a < b) (a = b) (b < a).
 simple induction a; simple induction b.
-apply or3_Middle; auto with v62.
+apply or3_Middle; auto with arith.
 intros.
-apply or3_Left; auto with v62.
-apply or3_Right; auto with v62.
+apply or3_Left; auto with arith.
+apply or3_Right; auto with arith.
 intros.
 elim (H n0).
 intro.

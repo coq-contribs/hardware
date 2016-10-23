@@ -40,7 +40,7 @@ Hint Resolve Square_exp_2.
 Lemma eq_Square_exp_n : forall n : nat, Square n = exp_n n 2.
 unfold Square in |- *.
 simpl in |- *.
-intro; elim (mult_comm 1 n); simpl in |- *; auto with v62.
+intro; elim (mult_comm 1 n); simpl in |- *; auto with arith.
 Qed.
 Hint Resolve eq_Square_exp_n.
 
@@ -61,7 +61,7 @@ Hint Resolve Square_strict_inc.
 
 
 Lemma le_n_Square : forall n : nat, n <= Square n.
-simple induction n; auto with v62.
+simple induction n; auto with arith.
 intros.
 unfold Square in |- *.
 simpl in |- *.

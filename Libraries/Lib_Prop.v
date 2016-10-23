@@ -32,14 +32,14 @@ Inductive or3 (A B C : Prop) : Set :=
 
 
 Lemma sym_and : forall A B : Prop, A /\ B -> B /\ A.
-intros A B H; elim H; split; auto with v62.
+intros A B H; elim H; split; auto.
 Qed.
 Hint Immediate sym_and.
 
 
 
 Lemma sym_or : forall A B : Prop, A \/ B -> B \/ A.
-simple induction 1; auto with v62.
+simple induction 1; auto.
 Qed.
 Hint Immediate sym_or.
 
@@ -47,7 +47,7 @@ Hint Immediate sym_or.
 Lemma no_and_l : forall A B : Prop, ~ A -> ~ (A /\ B).
 unfold not in |- *.
 intros A B H G; apply H.
-elim G; auto with v62.
+elim G; auto.
 Qed.
 Hint Resolve no_and_l.
 
@@ -55,58 +55,58 @@ Hint Resolve no_and_l.
 Lemma no_and_r : forall A B : Prop, ~ B -> ~ (A /\ B).
 unfold not in |- *.
 intros A B H G; apply H.
-elim G; auto with v62.
+elim G; auto.
 Qed.
 Hint Resolve no_and_r.
 
 
 Lemma no_or : forall A B : Prop, ~ A -> B \/ A -> B.
-intros A B H G; elim G; auto with v62.
-intro; absurd A; auto with v62.
+intros A B H G; elim G; auto.
+intro; absurd A; auto.
 Qed.
 
 
 Lemma no_or_inv : forall A B : Prop, ~ A -> A \/ B -> B.
-intros A B H G; elim G; auto with v62.
-intro; absurd A; auto with v62.
+intros A B H G; elim G; auto.
+intro; absurd A; auto.
 Qed.
 
 
 Lemma no_or_and : forall A B C D : Prop, ~ C -> A /\ B \/ C /\ D -> A /\ B.
 intros.
-apply no_or with (C /\ D); auto with v62.
+apply no_or with (C /\ D); auto.
 Qed.
 
 
 Lemma no_or_and_inv :
  forall A B C D : Prop, ~ D -> C /\ D \/ A /\ B -> A /\ B.
 intros.
-apply no_or_inv with (C /\ D); auto with v62.
+apply no_or_inv with (C /\ D); auto.
 Qed.
 
 
 Lemma no_no_A : forall A : Prop, A -> ~ ~ A.
-unfold not in |- *; auto with v62.
+unfold not in |- *; auto.
 Qed.
 Hint Resolve no_no_A.
 
 
 Lemma impl_no_no : forall A B : Prop, (A -> B) -> ~ B -> ~ A.
-unfold not in |- *; auto with v62.
+unfold not in |- *; auto.
 Qed.
 
 
 Lemma no_or_r : forall A B : Prop, ~ A -> A \/ B -> B.
 intros A B not_A A_or_B.
-elim A_or_B; auto with v62.
-intro; absurd A; auto with v62.
+elim A_or_B; auto.
+intro; absurd A; auto.
 Qed.
 
 
 Lemma no_or_l : forall A B : Prop, ~ B -> A \/ B -> A.
 intros A B not_A A_or_B.
-elim A_or_B; auto with v62.
-intro; absurd B; auto with v62.
+elim A_or_B; auto.
+intro; absurd B; auto.
 Qed.
 
 (************************************************************************)

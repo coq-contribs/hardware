@@ -46,7 +46,7 @@ Section compare_num.
   unfold Cons in |- *.
   unfold Digit in |- *.
   apply comp_dif.
-  auto with v62.
+  auto.
   Qed.
   Hint Resolve Comp_dif.
 
@@ -60,23 +60,23 @@ Section compare_num.
   cut
    (Compare_Nat.comparison (ValB n X) (ValB n Y) =
     Compare_Nat.comparison (ValB n X) (ValB n Y)); 
-   auto with v62.
+   auto.
   pattern (Compare_Nat.comparison (ValB n X) (ValB n Y)) at 2 3 in |- *.
   case (Compare_Nat.comparison (ValB n X) (ValB n Y)); intros c.
   unfold ValB in |- *; unfold Cons in |- *; unfold Digit in |- *.
   apply comparisonL.
-  apply comp_eq_most; auto with v62.
+  apply comp_eq_most; auto.
   simpl in |- *.
   unfold valB in e.
   rewrite e.
   rewrite (inv_comparisonE (ValB n X) (ValB n Y) c).
-  apply comparisonE; auto with v62.
+  apply comparisonE; auto.
   apply comparisonG.
   unfold gt in |- *.
   unfold ValB in |- *; unfold Cons in |- *; unfold Digit in |- *.
   apply comp_eq_most.
-  auto with v62.
-  cut (Val BASE n X > Val BASE n Y); auto with v62.
+  auto.
+  cut (Val BASE n X > Val BASE n Y); auto.
   Qed.
 
 End compare_num.

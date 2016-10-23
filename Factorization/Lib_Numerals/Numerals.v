@@ -59,12 +59,12 @@ Section Numerals.
   simpl in |- *.
   intros x.
   rewrite (mult_1_r (val x)).
-  auto with v62.
+  auto.
   Qed.
 
   Lemma upper_bound : forall (n : nat) (X : num n), Val n X < exp base n.
   intros n X; elim X.
-  auto with v62.
+  auto.
   intros n0 y l H_rec.
   simpl in |- *.
   apply lt_le_trans with (pred base * exp_n base n0 + exp_n base n0).
@@ -72,8 +72,8 @@ Section Numerals.
   elim y.
   intros x H_y.
   simpl in |- *.
-  auto with v62. (*lt_le_pred*)
-  trivial with v62.
+  auto. (*lt_le_pred*)
+  trivial.
   replace (pred base) with (base - 1). (*pred_minus*)
   rewrite mult_minus_distr_r.
   simpl in |- *.
@@ -82,10 +82,10 @@ Section Numerals.
   elim plus_Snm_nSm; simpl in |- *; elim plus_n_O.
   elim plus_comm.
   elim le_plus_minus.
-  apply le_mult_cst; auto with v62.
+  apply le_mult_cst; auto.
   apply le_exp_n_mult.
-  unfold base in |- *; case BASE; auto with v62.
-  auto with v62.
+  unfold base in |- *; case BASE; auto.
+  auto.
   Qed.
 
 
@@ -98,8 +98,8 @@ Section Numerals.
    val x < val y -> Val (S n) (Cons n x X) < Val (S n) (Cons n y Y).
   simpl in |- *; intros.
   elim H.
-  apply same_quotient_order; auto with v62; apply upper_bound.
-  intros; apply same_quotient_order; auto with v62; apply upper_bound.
+  apply same_quotient_order; auto; apply upper_bound.
+  intros; apply same_quotient_order; auto; apply upper_bound.
   Qed.
 
 
@@ -110,7 +110,7 @@ Section Numerals.
   intros n x y X Y e H.
   simpl in |- *.
   rewrite e.
-  apply plus_lt_compat_l; auto with v62.
+  apply plus_lt_compat_l; auto.
   Qed.
 
   Lemma com_eq :
@@ -119,7 +119,7 @@ Section Numerals.
    Val n X = Val n Y -> Val (S n) (Cons n x X) = Val (S n) (Cons n y Y).
   simpl in |- *.
   intros n x y X Y He HE.
-  rewrite He; rewrite HE; auto with v62.
+  rewrite He; rewrite HE; auto.
   Qed.
 
 End Numerals.
