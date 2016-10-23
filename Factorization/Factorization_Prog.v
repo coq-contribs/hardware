@@ -61,10 +61,10 @@ Section Factorization_for_Realizer.
   generalize X Y a; clear X Y a; elim n.
   intros X Y a.
   simpl in |- *; unfold Val_bound in |- *; unfold R in |- *; apply prop_Rel;
-   auto with v62.    (*is_proper*)
+   auto.    (*is_proper*)
   unfold R in |- *; unfold Val_bound in |- *; unfold b in |- *;
    intros m Hr a X Y.
-  apply fact_Rel; simpl in |- *; auto with v62.  (*is_factorizable*)
+  apply fact_Rel; simpl in |- *; auto.  (*is_factorizable*)
   Qed.
 
 

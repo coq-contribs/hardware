@@ -25,7 +25,7 @@
 
 Lemma pair_fst_snd : forall (A B : Set) (c : A * B), (fst c, snd c) = c.
 intros.
-pattern c in |- *; elim c; auto with v62.
+pattern c in |- *; elim c; auto.
 Qed.
 
 
@@ -37,15 +37,15 @@ Section programming_3.
 Variable A B C : Set.
 
 Theorem fst_3 : prod_3 A B C -> A.
-simple induction 1; try trivial with v62.
+simple induction 1; try trivial.
 Defined.
 
 Theorem snd_3 : prod_3 A B C -> B.
-simple induction 1; try trivial with v62.
+simple induction 1; try trivial.
 Defined.
 
 Theorem thd_3 : prod_3 A B C -> C.
-simple induction 1; try trivial with v62.
+simple induction 1; try trivial.
 Defined.
 
 End programming_3.
@@ -63,7 +63,7 @@ Lemma triplet_fst_snd_thd :
  forall (A B C : Set) (c : prod_3 A B C),
  triplet _ _ _ (fst_3 _ _ _ c) (snd_3 _ _ _ c) (thd_3 _ _ _ c) = c.
 intros.
-pattern c in |- *; elim c; auto with v62.
+pattern c in |- *; elim c; auto.
 Qed.
 
 
@@ -75,6 +75,6 @@ Definition ifProp (C : Type) (b : bool) (x y : C) : C :=
   end.
 
 Lemma ifProp_or : forall (b : bool) (P Q : Prop), ifProp Prop b P Q -> P \/ Q.
-simple induction b; auto with v62.
+simple induction b; auto.
 Qed.
 (************************************************************************)

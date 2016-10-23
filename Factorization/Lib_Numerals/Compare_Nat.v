@@ -34,14 +34,14 @@ Hint Resolve First Second Third.
 
 Lemma Lt_eq_Gt : forall n m : nat, Or3 (n < m) (n = m) (n > m).
 simple induction n; simple induction m.
-apply Second; try trivial with v62.
-intros; apply First; try trivial with v62.
-apply Third; try trivial with v62.
+apply Second; try trivial with arith.
+intros; apply First; try trivial with arith.
+apply Third; try trivial with arith.
 intros.
 elim (H n1); intros Hyp.
-apply First; auto with v62.
-apply Second; auto with v62.
-apply Third; auto with v62.
+apply First; auto with arith.
+apply Second; auto with arith.
+apply Third; auto with arith.
 Defined.
 
 
@@ -62,10 +62,10 @@ Lemma comparisonL :
 intros.
 unfold Compare_Nat.comparison in |- *.
 elim (Lt_eq_Gt v1 v2).
-auto with v62.
-intros e; absurd (v1 < v2); auto with v62.
-rewrite e; auto with v62.
-intro; absurd (v1 > v2); auto with v62.
+auto with arith.
+intros e; absurd (v1 < v2); auto with arith.
+rewrite e; auto with arith.
+intro; absurd (v1 > v2); auto with arith.
 Qed.
 Hint Resolve comparisonL.
 
@@ -73,10 +73,10 @@ Lemma comparisonG :
  forall v1 v2 : nat, v1 > v2 -> Compare_Nat.comparison v1 v2 = G.
 intros.
 unfold Compare_Nat.comparison in |- *.
-elim (Lt_eq_Gt v1 v2); auto with v62.
-intro; absurd (v1 > v2); auto with v62.
-intros e; absurd (v1 > v2); auto with v62.
-rewrite e; auto with v62.
+elim (Lt_eq_Gt v1 v2); auto with arith.
+intro; absurd (v1 > v2); auto with arith.
+intros e; absurd (v1 > v2); auto with arith.
+rewrite e; auto with arith.
 Qed.
 Hint Resolve comparisonG.
 
@@ -84,23 +84,23 @@ Lemma comparisonE :
  forall v1 v2 : nat, v1 = v2 -> Compare_Nat.comparison v1 v2 = E.
 intros.
 unfold Compare_Nat.comparison in |- *.
-elim (Lt_eq_Gt v1 v2); auto with v62.
-intro; absurd (v1 < v2); auto with v62.
-rewrite H; auto with v62.
-intro; absurd (v1 > v2); auto with v62.
-rewrite H; auto with v62.
+elim (Lt_eq_Gt v1 v2); auto with arith.
+intro; absurd (v1 < v2); auto with arith.
+rewrite H; auto with arith.
+intro; absurd (v1 > v2); auto with arith.
+rewrite H; auto with arith.
 Qed. 
 Hint Resolve comparisonE.
 
 Lemma inv_comparisonL :
  forall v1 v2 : nat, Compare_Nat.comparison v1 v2 = L -> v1 < v2.
 intros.
-elim (Lt_eq_Gt v1 v2); auto with v62.
+elim (Lt_eq_Gt v1 v2); auto with arith.
 intros e.
-absurd (Compare_Nat.comparison v1 v2 = L); auto with v62.
+absurd (Compare_Nat.comparison v1 v2 = L); auto with arith.
 rewrite (comparisonE v1 v2 e); discriminate.
 intros g.
-absurd (Compare_Nat.comparison v1 v2 = L); auto with v62.
+absurd (Compare_Nat.comparison v1 v2 = L); auto with arith.
 rewrite (comparisonG v1 v2 g); discriminate.
 Qed.
 Hint Resolve inv_comparisonL.
@@ -108,10 +108,10 @@ Hint Resolve inv_comparisonL.
 Lemma inv_comparisonE :
  forall v1 v2 : nat, Compare_Nat.comparison v1 v2 = E -> v1 = v2.
 intros v1 v2 c.
-elim (Lt_eq_Gt v1 v2); auto with v62.
-intros l; absurd (Compare_Nat.comparison v1 v2 = E); auto with v62.
+elim (Lt_eq_Gt v1 v2); auto with arith.
+intros l; absurd (Compare_Nat.comparison v1 v2 = E); auto with arith.
 rewrite (comparisonL v1 v2 l); discriminate.
-intros g; absurd (Compare_Nat.comparison v1 v2 = E); auto with v62.
+intros g; absurd (Compare_Nat.comparison v1 v2 = E); auto with arith.
 rewrite (comparisonG v1 v2 g); discriminate.
 Qed.
 Hint Resolve inv_comparisonE.
@@ -119,10 +119,10 @@ Hint Resolve inv_comparisonE.
 Lemma inv_comparisonG :
  forall v1 v2 : nat, Compare_Nat.comparison v1 v2 = G -> v1 > v2.
 intros v1 v2 c.
-elim (Lt_eq_Gt v1 v2); auto with v62.
-intros l; absurd (Compare_Nat.comparison v1 v2 = G); auto with v62.
+elim (Lt_eq_Gt v1 v2); auto with arith.
+intros l; absurd (Compare_Nat.comparison v1 v2 = G); auto with arith.
 rewrite (comparisonL v1 v2 l); discriminate.
-intros e; absurd (Compare_Nat.comparison v1 v2 = G); auto with v62.
+intros e; absurd (Compare_Nat.comparison v1 v2 = G); auto with arith.
 rewrite (comparisonE v1 v2 e); discriminate.
 Qed.
 Hint Resolve inv_comparisonG.
@@ -136,9 +136,9 @@ Lemma inv_comparison :
  end.
 intros v1 v2.
 cut (Compare_Nat.comparison v1 v2 = Compare_Nat.comparison v1 v2);
- auto with v62.
+ auto with arith.
 pattern (Compare_Nat.comparison v1 v2) at 2 3 in |- *.
-case (Compare_Nat.comparison v1 v2); intro; auto with v62.
+case (Compare_Nat.comparison v1 v2); intro; auto with arith.
 Qed.
 
 Lemma comp_sym_LG :
@@ -146,7 +146,7 @@ Lemma comp_sym_LG :
  Compare_Nat.comparison v1 v2 = L -> Compare_Nat.comparison v2 v1 = G.
 intros v1 v2 H.
 apply comparisonG.
-auto with v62.
+auto with arith.
 Qed.
 Hint Resolve comp_sym_LG.
 
@@ -154,7 +154,7 @@ Lemma comp_sym_GL :
  forall v1 v2 : nat,
  Compare_Nat.comparison v1 v2 = G -> Compare_Nat.comparison v2 v1 = L.
 intros v1 v2 H.
-apply comparisonL; auto with v62.
+apply comparisonL; auto with arith.
 Qed.
 Hint Resolve comp_sym_GL.
 
@@ -165,6 +165,6 @@ Lemma comp_sym_E :
 intros v1 v2 H.
 apply comparisonE.
 apply sym_equal.
-auto with v62.
+auto with arith.
 Qed.
 Hint Resolve comp_sym_E.

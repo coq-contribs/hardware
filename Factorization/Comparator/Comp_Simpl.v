@@ -79,23 +79,23 @@ Section comparator.
    Connection n o X Y o' -> o' = f_circ n o X Y.
   simple induction 1.
   clear H o' o Y X n.
-  intros o; case o; simpl in |- *; auto with v62.
-  auto with v62.
+  intros o; case o; simpl in |- *; auto.
+  auto.
 
   clear H o' o Y X n.
   intros n o o1 o' x y X Y H_cell H_n H_rec.
   inversion_clear H_cell.
   rewrite H_rec; rewrite H.
-  cut (o = o); auto with v62.
+  cut (o = o); auto.
   pattern o at 2 3 in |- *; case o; intros e; rewrite e;
-   unfold f_cell in |- *; unfold f_circ in |- *; auto with v62.
+   unfold f_cell in |- *; unfold f_circ in |- *; auto.
   cut
    (Compare_Nat.comparison (valB x) (valB y) =
-    Compare_Nat.comparison (valB x) (valB y)); auto with v62.
+    Compare_Nat.comparison (valB x) (valB y)); auto.
   pattern (Compare_Nat.comparison (valB x) (valB y)) at 2 3 in |- *;
    case (Compare_Nat.comparison (valB x) (valB y)); 
    intros C; apply sym_equal; unfold ValB in |- *; 
-   unfold Digit in |- *; auto with v62.
+   unfold Digit in |- *; auto.
   Qed.
 
   Remark correctness :
@@ -104,7 +104,7 @@ Section comparator.
    o = Specif (exp (base BASE) n) (Val_bound n X) (Val_bound n Y).
   unfold Comparator in |- *; unfold Specif in |- *.
   intros n X Y o H. rewrite (general_correct n X Y E o H).
-  auto with v62.
+  auto.
   Qed.
 
 End comparator.

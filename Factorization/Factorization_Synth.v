@@ -54,13 +54,13 @@ Require Export Factorization.
   exists a.
   simpl in |- *.
   unfold R in |- *; unfold Val_bound in |- *; apply prop_Rel.
-  try trivial with v62.
+  try trivial.
   clear n; intros n H_rec X Y a.
   elim
    (H_rec (Tl (S n) X) (Tl (S n) Y) (FR b a (Hd Digit n X) (Hd Digit n Y))).
   intros a' H; exists a'.
   unfold b in |- *; unfold R in |- *; unfold Val_bound in |- *.
-  apply fact_Rel; try trivial with v62.
+  apply fact_Rel; try trivial.
   Defined.
 
 End Factorization_for_Synthesis.

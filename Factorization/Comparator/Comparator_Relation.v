@@ -50,7 +50,7 @@ Section Comparator_Rel.
 
 Lemma is_proper : proper _ BASE R.
 unfold proper in |- *.
-intros a; case a; unfold R in |- *; simpl in |- *; auto with v62.
+intros a; case a; unfold R in |- *; simpl in |- *; auto with arith.
 Qed.
 
 
@@ -63,7 +63,7 @@ unfold factorizable in |- *; unfold R in |- *;
  intros M N q q' r r' a a1 a' x x' H1 H2; case a.
 
 (*a=L*)
-simpl in |- *; intro R1; rewrite R1; simpl in |- *; auto with v62.
+simpl in |- *; intro R1; rewrite R1; simpl in |- *; auto with arith.
 
 (*a=E*)
 case a1.
@@ -73,24 +73,24 @@ case a1.
   unfold Diveucl in H1; unfold Diveucl in H2; elim H1; elim H2; clear H1 H2;
    intros H1 H2 H3 H4; rewrite H1; rewrite H3;
    elim (mult_comm (val_inf M q) N); elim (mult_comm (val_inf M q') N);
-   auto with v62.
+   auto with arith.
 
   (*a1=E*)
   case a'; intros R1 R2.
   simpl in |- *; apply sym_equal; apply comparisonL.
   unfold Diveucl in H1; unfold Diveucl in H2; elim H1; elim H2; clear H1 H2;
    intros H1 H2 H3 H4; rewrite H1; rewrite H3.
-  replace (val_inf M q') with (val_inf M q); auto with v62.
+  replace (val_inf M q') with (val_inf M q); auto with arith.
   simpl in |- *; apply sym_equal; apply comparisonE.
   unfold Diveucl in H1; unfold Diveucl in H2; elim H1; elim H2; clear H1 H2;
    intros H1 H2 H3 H4; rewrite H1; rewrite H3.
-  replace (val_inf M q') with (val_inf M q); auto with v62.
+  replace (val_inf M q') with (val_inf M q); auto with arith.
 
 
   simpl in |- *; apply sym_equal; apply comparisonG.
   unfold Diveucl in H1; unfold Diveucl in H2; elim H1; elim H2; clear H1 H2;
    intros H1 H2 H3 H4; rewrite H1; rewrite H3.
-  replace (val_inf M q') with (val_inf M q); auto with v62.
+  replace (val_inf M q') with (val_inf M q); auto with arith.
 
   (*a1=G*)
   intros R1 R2.
@@ -98,10 +98,10 @@ case a1.
   unfold Diveucl in H1; unfold Diveucl in H2; elim H1; elim H2; clear H1 H2;
    intros H1 H2 H3 H4; rewrite H1; rewrite H3; unfold gt in |- *;
    elim (mult_comm (val_inf M q) N); elim (mult_comm (val_inf M q') N);
-   auto with v62. 
+   auto with arith. 
  
 (*a=G*)
-simpl in |- *; intro R1; rewrite R1; simpl in |- *; auto with v62.
+simpl in |- *; intro R1; rewrite R1; simpl in |- *; auto with arith.
 
 Qed.
 
