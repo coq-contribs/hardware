@@ -3,6 +3,7 @@
 
 Require Import Factorization_Synth.
 Require Import Comp_Synth.
+Require Extraction.
 
 (* The parameter BASE is in fact not necessary in extracted code,
    the following commands help making it disappear from the code. *)
