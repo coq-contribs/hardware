@@ -99,7 +99,7 @@ Section Dependent_lists.
    {a : A &  {t : list n | l = cons n a t}}. 
   intros n l.
   cut
-   (sigS
+   (sigT
       (fun a : A =>
        sig (fun t : list n => eq_list (S n) l (S n) (cons n a t)))).
   intros H; elim H; clear H.
