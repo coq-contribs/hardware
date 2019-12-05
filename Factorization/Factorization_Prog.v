@@ -42,12 +42,6 @@ Section Factorization_for_Realizer.
   Notation Factorizable := (factorizable _) (only parsing).
   Notation Proper := (proper _) (only parsing).
 
-  Theorem factorization_for_realizer :
-   factorizable _ R ->
-   proper _ BASE R ->
-   forall (n : nat) (a : A) (X Y : Num n),
-   {a' : A | R (exp b n) a (Val_bound n X) (Val_bound n Y) a'}.
-
   Fixpoint Impl (n : nat) : A -> Num n -> Num n -> A :=
     fun a : A =>
     match n return (Num n -> Num n -> A) with
@@ -57,6 +51,13 @@ Section Factorization_for_Realizer.
         Impl p (FR b a (Hd Digit p X) (Hd Digit p Y)) 
           (Tl (S p) X) (Tl (S p) Y)
     end.
+
+  Theorem factorization_for_realizer :
+   factorizable _ R ->
+   proper _ BASE R ->
+   forall (n : nat) (a : A) (X Y : Num n),
+   {a' : A | R (exp b n) a (Val_bound n X) (Val_bound n Y) a'}.
+
   refine (fun H H' n a X Y => exist _ (Impl n a X Y) _).
   generalize X Y a; clear X Y a; elim n.
   intros X Y a.
